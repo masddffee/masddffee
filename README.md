@@ -1,6 +1,6 @@
 # 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=slice&color=00008B&height=350&section=header&text=Ay-Mr%20(masddffee)&fontSize=70&fontColor=ffffff&animation=fadeIn" alt="Header Banner"/>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&gradient=00008B,4B0082&height=350&section=header&text=Ay-Mr%20(masddffee)&fontSize=70&fontColor=00FFFF&animation=fadeIn&stroke=00FFFF&strokeWidth=2" alt="Header Banner"/>
 </p>
 
 <p align="center">
