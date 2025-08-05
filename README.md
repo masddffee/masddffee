@@ -58,8 +58,6 @@ I am a passionate developer and learner from **Taiwan 🇹🇼** with strong exp
   </a>
 </p>
 
-<p align="center">
-  <img src="https://platane.github.io/snk/svg-render/github-contribution-grid-snake.svg?user=masddffee&theme=dark" alt="contribution snake" />
-</p>
+
 
 ---
