@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # <--- 新增這一行
     steps:
       - uses: actions/checkout@v4
       - uses: Platane/snk@v3
