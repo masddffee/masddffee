@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="240" viewBox="0 0 980 240" role="img" aria-labelledby="title desc">
+  <title id="title">Ay-Mr — AI product engineering</title>
+  <desc id="desc">Profile banner for Ay-Mr, focused on AI products, full-stack systems, and applied machine learning.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="55%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#0b1220"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#58a6ff"/>
+      <stop offset="55%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#39d353"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#58a6ff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#58a6ff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M 26 0 L 0 0 0 26" fill="none" stroke="#ffffff" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect x="0.75" y="0.75" width="978.5" height="238.5" rx="22" fill="url(#bg)" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="1" y="1" width="978" height="238" rx="21" fill="url(#grid)"/>
+  <circle cx="824" cy="58" r="190" fill="url(#glow)"/>
+  <path d="M 610 208 C 705 120, 778 154, 949 65" fill="none" stroke="url(#accent)" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <circle cx="746" cy="151" r="4" fill="#8b5cf6"/>
+  <circle cx="851" cy="116" r="4" fill="#58a6ff"/>
+  <circle cx="948" cy="66" r="4" fill="#39d353"/>
+
+  <rect x="46" y="42" width="62" height="5" rx="2.5" fill="url(#accent)"/>
+  <text x="46" y="108" fill="#f0f6fc" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="54" font-weight="800" letter-spacing="3">AY-MR</text>
+  <text x="49" y="141" fill="#b1bac4" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" font-weight="500">AI product engineering · full-stack systems · applied ML</text>
+  <text x="49" y="171" fill="#7d8590" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="13">Building production-minded software from idea → prototype → shipped system.</text>
+
+  <g transform="translate(49 196)">
+    <rect x="0" y="0" width="86" height="24" rx="12" fill="#58a6ff" fill-opacity="0.10" stroke="#58a6ff" stroke-opacity="0.38"/>
+    <text x="43" y="16" text-anchor="middle" fill="#79c0ff" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="10" font-weight="700">AI / ML</text>
+    <rect x="96" y="0" width="104" height="24" rx="12" fill="#8b5cf6" fill-opacity="0.10" stroke="#8b5cf6" stroke-opacity="0.38"/>
+    <text x="148" y="16" text-anchor="middle" fill="#c4b5fd" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="10" font-weight="700">FULL-STACK</text>
+    <rect x="210" y="0" width="94" height="24" rx="12" fill="#39d353" fill-opacity="0.10" stroke="#39d353" stroke-opacity="0.38"/>
+    <text x="257" y="16" text-anchor="middle" fill="#56d364" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" font-size="10" font-weight="700">SYSTEMS</text>
+  </g>
+
+  <g transform="translate(700 34)">
+    <rect x="0" y="0" width="228" height="112" rx="14" fill="#0d1117" fill-opacity="0.78" stroke="#30363d"/>
+    <circle cx="18" cy="17" r="4" fill="#ff7b72"/>
+    <circle cx="31" cy="17" r="4" fill="#d29922"/>
+    <circle cx="44" cy="17" r="4" fill="#3fb950"/>
+    <text x="18" y="48" fill="#8b949e" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10">$ focus --mode build</text>
+    <text x="18" y="70" fill="#79c0ff" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10">problem → system</text>
+    <text x="18" y="90" fill="#c4b5fd" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10">prototype → evidence</text>
+    <text x="18" y="110" fill="#56d364" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10">ship → learn ↻</text>
+  </g>
+</svg>
