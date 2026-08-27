@@ -1,0 +1,46 @@
+name: Refresh profile activity
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - README.md
+      - assets/**
+      - scripts/generate_activity.py
+      - .github/workflows/profile-metrics.yml
+  schedule:
+    - cron: "15 0 * * *" # 08:15 in Taiwan
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-metrics
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout profile repository
+        uses: actions/checkout@v4
+
+      - name: Generate activity card
+        env:
+          GITHUB_LOGIN: ${{ github.repository_owner }}
+          PROFILE_METRICS_TOKEN: ${{ secrets.PROFILE_METRICS_TOKEN }}
+          PROFILE_TZ_OFFSET: "8"
+        run: python3 scripts/generate_activity.py
+
+      - name: Commit refreshed metrics
+        run: |
+          git add metrics/activity.svg
+          if git diff --cached --quiet; then
+            echo "No metric changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh profile activity"
+          git push origin HEAD:main
