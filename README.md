@@ -17,7 +17,7 @@ I turn <b>AI/ML ideas into shipped software</b> — model experiments, agent too
 <details>
 <summary><kbd>&nbsp;▶ CLICK&nbsp;</kbd>&nbsp; <code>decrypt ./about.enc --key=curiosity</code> &nbsp;<sub>who is behind this terminal?</sub></summary>
 <br/>
-<img src="./assets/cards/decrypt.svg" width="100%" loading="lazy" alt="Decrypted profile" />
+<img src="./assets/cards/decrypt.svg" width="100%" alt="Decrypted profile" />
 
 - **Role** — AI product engineer · student builder · Taiwan
 - **Focus** — AI products · full-stack systems · applied ML · agent tooling
@@ -57,7 +57,7 @@ I turn <b>AI/ML ideas into shipped software</b> — model experiments, agent too
 <details>
 <summary><kbd>&nbsp;▶ CLICK TO SUMMON&nbsp;</kbd>&nbsp; <b>the orbit</b> &nbsp;<sub>every avatar here was dropped in by a visitor</sub></summary>
 <br/>
-<img src="./metrics/orbit.svg" width="100%" loading="lazy" alt="The orbit: avatars of visitors and followers circling this profile" />
+<img src="./metrics/orbit.svg" width="100%" alt="The orbit: avatars of visitors and followers circling this profile" />
 </details>
 
 <p align="center">

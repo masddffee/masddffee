@@ -271,11 +271,16 @@ def skyline(stats: Stats) -> tuple[str, str]:
             px, py = iso(w + k / 2, wd + k / 2, h)
             label = f"PEAK {count} · {d:%b %d}".upper()
             lw = text_width(label, 9.5, 1) + 14
+            if py - 48 >= 170:  # room above the bar
+                box_x, box_y, lead = px - lw / 2, py - 48, f"M {num(px)} {num(py - 4)} V {num(py - 30)}"
+            else:  # too close to the section title: hang the label off to the left
+                box_x, box_y = px - 26 - lw, max(py - 9, 170)
+                lead = f"M {num(px - 3)} {num(py - 2)} L {num(px - 26)} {num(box_y + 9)}"
             marks.append(
-                f'<g class="pin"><path d="M {num(px)} {num(py - 4)} V {num(py - 30)}" stroke="{MINT}" stroke-width="1"/>'
+                f'<g class="pin"><path d="{lead}" stroke="{MINT}" stroke-width="1" fill="none"/>'
                 f'<circle cx="{num(px)}" cy="{num(py - 2)}" r="2.5" fill="#fff"/>'
-                f'<rect x="{num(px - lw / 2)}" y="{num(py - 48)}" width="{num(lw)}" height="18" rx="4" fill="{BG0}" stroke="{MINT}" stroke-opacity=".7"/>'
-                f'<text x="{num(px)}" y="{num(py - 35.5)}" text-anchor="middle" font-size="9.5" letter-spacing="1" font-weight="700" fill="{MINT}">{esc(label)}</text></g>'
+                f'<rect x="{num(box_x)}" y="{num(box_y)}" width="{num(lw)}" height="18" rx="4" fill="{BG0}" stroke="{MINT}" stroke-opacity=".7"/>'
+                f'<text x="{num(box_x + lw / 2)}" y="{num(box_y + 12.5)}" text-anchor="middle" font-size="9.5" letter-spacing="1" font-weight="700" fill="{MINT}">{esc(label)}</text></g>'
             )
         if d == today:
             tx, ty = iso(w + k / 2, wd + k / 2, h)
