@@ -228,7 +228,6 @@ def render(demo: bool = False) -> str:
             )
             (slots if is_ghost else people).append(node)
 
-    n_guests = sum(1 for m in visible if m["id"] in guest_ids)
     count_text = f"{len(visible)} IN ORBIT" if visible else "ORBIT OPEN"
     cw = text_width(count_text, 9.5, 1.2) + 30
     style = (
@@ -257,7 +256,7 @@ def render(demo: bool = False) -> str:
         "</style>"
     )
     hint = (
-        "click JOIN ORBIT -> submit the issue -> your avatar lands here in ~1 min"
+        "JOIN ORBIT -> your avatar lands here in ~1 min"
     )
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-labelledby="t d">
 <title id="t">The orbit</title>
@@ -292,8 +291,7 @@ def render(demo: bool = False) -> str:
 <rect x="{num(W - 18 - cw)}" y="9" width="{num(cw)}" height="22" rx="3" fill="{BG0}" stroke="{LINE}"/>
 <circle class="blink" cx="{num(W - 18 - cw + 13)}" cy="20" r="3" fill="{ACCENT}"/>
 <text x="{num(W - 18 - cw + 22)}" y="23.5" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="{SOFT}">{count_text}</text>
-<g class="cta"><text x="{W / 2}" y="{H - 14}" text-anchor="middle" font-size="10.5" fill="{MUTED}">{esc(hint)}</text></g>
-<text x="20" y="{H - 14}" font-size="9" fill="{DIM}"><tspan fill="{ACCENT}">●</tspan> guestbook {n_guests}  <tspan fill="{STEEL}">●</tspan> followers {len(visible) - n_guests}</text>
+<g class="cta"><text x="{W / 2}" y="{H - 16}" text-anchor="middle" font-size="12" letter-spacing=".5" fill="{MUTED}">{esc(hint)}</text></g>
 {grain_layer(W, H)}
 </g>
 <rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="18" fill="none" stroke="{LINE}" stroke-width="1.5"/>

@@ -15,58 +15,56 @@ I turn <b>AI/ML ideas into shipped software</b> — model experiments, agent too
 </div>
 
 <details>
-<summary><kbd>&nbsp;▶ CLICK&nbsp;</kbd>&nbsp; <code>decrypt ./about.enc --key=curiosity</code> &nbsp;<sub>who is behind this terminal?</sub></summary>
+<summary><kbd>&nbsp;▶ CLICK&nbsp;</kbd>&nbsp; <b>decrypt the profile</b></summary>
 <br/>
 <img src="./assets/cards/decrypt.svg" width="100%" alt="Decrypted profile" />
 
-- **Role** — AI product engineer · student builder · Taiwan
-- **Focus** — AI products · full-stack systems · applied ML · agent tooling
-- **Shipped** — [Zonr](https://zonr.pro) on iOS + Android · [Google Play Preflight Skills](https://github.com/masddffee/google-play-preflight-skills)
-- **Research** — [LensGuard](https://github.com/tyc4d/LensGuard): safe actions for vision-AI assistants (research & product lead)
-- **Method** — problem → prototype → evidence → ship
+- **Building** — [Zonr](https://zonr.pro), live on iOS + Android
+- **Research** — [LensGuard](https://github.com/tyc4d/LensGuard), research & product lead
+- **Contact** — houbaian54@gmail.com
 
 </details>
 
 <br/>
 <img src="./assets/cards/h-work.svg" width="100%" alt="01 — Selected work" />
 
+<a href="https://zonr.pro"><img src="./assets/cards/card-zonr.svg" width="100%" alt="Zonr — turns a stalled, deadline-driven goal into today's next step. WorldSkills BeChangeMaker 2026 Global Top 15. Live on iOS and Android." /></a>
+
 <p align="center">
-  <a href="https://zonr.pro"><img src="./assets/cards/card-zonr.svg" width="49%" alt="Zonr 佐能 — AI planner that turns a stalled, deadline-driven goal into today's next step. Live on iOS and Android." /></a>
-  <a href="https://github.com/tyc4d/LensGuard"><img src="./assets/cards/card-lensguard.svg" width="49%" alt="LensGuard — open-source action-authorization guard that stops prompt injections hidden in camera scenes." /></a>
-  <a href="https://github.com/masddffee/google-play-preflight-skills"><img src="./assets/cards/card-preflight.svg" width="49%" alt="Google Play Preflight Skills — catch Play Store review blockers before submission." /></a>
-  <a href="https://github.com/masddffee/Smart-microwave-oven"><img src="./assets/cards/card-microwave.svg" width="49%" alt="Smart Microwave Oven — contactless cooking with computer vision on a Raspberry Pi." /></a>
+  <a href="https://zonr.pro"><img src="./assets/cards/store-web.svg" height="48" alt="Visit zonr.pro" /></a>
+  <a href="https://apps.apple.com/app/id6759614919"><img src="./assets/cards/store-ios.svg" height="48" alt="Download Zonr on the App Store" /></a>
+  <a href="https://play.google.com/store/apps/details?id=com.zonr.app"><img src="./assets/cards/store-play.svg" height="48" alt="Get Zonr on Google Play" /></a>
 </p>
 
 <p align="center">
-  <a href="https://zonr.pro"><img src="./assets/cards/store-web.svg" height="46" alt="Visit zonr.pro" /></a>
-  <a href="https://apps.apple.com/app/id6759614919"><img src="./assets/cards/store-ios.svg" height="46" alt="Download Zonr on the App Store" /></a>
-  <a href="https://play.google.com/store/apps/details?id=com.zonr.app"><img src="./assets/cards/store-play.svg" height="46" alt="Get Zonr on Google Play" /></a>
+  <a href="https://github.com/tyc4d/LensGuard"><img src="./assets/cards/card-lensguard.svg" width="49%" alt="LensGuard — open-source guard that blocks prompt injections hidden in what vision-AI assistants see." /></a>
+  <a href="https://github.com/masddffee/google-play-preflight-skills"><img src="./assets/cards/card-preflight.svg" width="49%" alt="Play Preflight — open-source agent skill that catches Google Play review blockers before you submit." /></a>
 </p>
 
 <br/>
 <img src="./assets/cards/h-journey.svg" width="100%" alt="02 — The journey" />
-<img src="./assets/cards/journey.svg" width="100%" alt="Journey film strip: ML Snake (DQN agent) → Smart Oven (contactless AIoT) → Zonr ships on iOS + Google Play (2026) → WorldSkills BeChangeMaker 2026 Global Top 15 → Play Preflight (2026.06) → LensGuard (2026.09) → next frame" />
+<img src="./assets/cards/journey.svg" width="100%" alt="Journey film strip: ML Snake (DQN agent) → Zonr ships on iOS + Google Play (2026) → WorldSkills BeChangeMaker 2026 Global Top 15 → Play Preflight (2026.06) → LensGuard (2026.09) → next frame" />
 
 <br/><br/>
 <img src="./assets/cards/h-stack.svg" width="100%" alt="03 — Tech stack" />
-<img src="./assets/cards/stack.svg" width="100%" alt="Tech stack: Python, PyTorch, TensorFlow, OpenCV, NVIDIA VLMs, Claude Code, TypeScript, React, Next.js, Node.js, FastAPI, Tailwind, Supabase, Rust, Tauri, C++, SQLite, Docker, Cloudflare, Raspberry Pi, GitHub Actions" />
+<img src="./assets/cards/stack.svg" width="100%" alt="Tech stack: Python, PyTorch, TensorFlow, OpenCV, NVIDIA, TypeScript, React, Next.js, Node.js, FastAPI, Rust, C++, SQLite, Docker, Cloudflare" />
 
 <br/><br/>
 <img src="./assets/cards/h-activity.svg" width="100%" alt="04 — Engineering activity" />
-<img src="./metrics/activity.svg" width="100%" alt="Contribution skyline: last 12 months of GitHub contributions as a 3D city, with streaks and breakdown" />
+<img src="./metrics/activity.svg" width="100%" alt="Contribution skyline: last 12 months of GitHub contributions as a 3D city, with streaks and the public / private split" />
 
-<p align="center"><sub>Rendered daily by GitHub Actions from the GraphQL <code>contributionsCollection</code> — the same data as the green squares, with private work counted anonymously. No repository names or commit messages are ever drawn.</sub></p>
+<p align="center"><sub>Refreshed daily from GitHub's contribution data · private work is counted, never named.</sub></p>
 
 <img src="./assets/cards/h-orbit.svg" width="100%" alt="05 — The orbit" />
 
 <details>
-<summary><kbd>&nbsp;▶ CLICK TO SUMMON&nbsp;</kbd>&nbsp; <b>the orbit</b> &nbsp;<sub>every avatar here was dropped in by a visitor</sub></summary>
+<summary><kbd>&nbsp;▶ CLICK TO SUMMON&nbsp;</kbd>&nbsp; <b>the orbit</b></summary>
 <br/>
 <img src="./metrics/orbit.svg" width="100%" alt="The orbit: avatars of visitors and followers circling this profile" />
 </details>
 
 <p align="center">
-  ▸ <a href="https://github.com/masddffee/masddffee/issues/new?title=orbit%3A%20join&body=Hit%20%2A%2ASubmit%20new%20issue%2A%2A%20to%20drop%20your%20avatar%20into%20the%20orbit%20on%20my%20profile%20README.%0A%0AA%20GitHub%20Action%20adds%20your%20public%20username%20%2B%20avatar%2C%20re-renders%20the%20orbit%20and%20closes%20this%20issue%20automatically.%20Nothing%20else%20is%20collected."><b>Join the orbit</b></a> — submit the pre-filled issue and a GitHub Action drops your avatar in within a minute.
+  ▸ <a href="https://github.com/masddffee/masddffee/issues/new?title=orbit%3A%20join&body=Hit%20%2A%2ASubmit%20new%20issue%2A%2A%20to%20drop%20your%20avatar%20into%20the%20orbit%20on%20my%20profile%20README.%0A%0AA%20GitHub%20Action%20adds%20your%20public%20username%20%2B%20avatar%2C%20re-renders%20the%20orbit%20and%20closes%20this%20issue%20automatically.%20Nothing%20else%20is%20collected."><b>Join the orbit</b></a> — your avatar lands here in about a minute.
 </p>
 
 <img src="./assets/cards/footer.svg" width="100%" alt="Fin. — build → measure → ship → learn" />

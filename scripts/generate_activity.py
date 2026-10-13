@@ -29,9 +29,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from svgkit import (  # noqa: E402
-    ACCENT, ASH, BG0, DIM, DISPLAY, FONT_SLOT, GOLD, LINE, MONO, MUTED, PANEL,
-    ROOT, SOFT, STEEL, TEXT, esc, grain, grain_layer, num, text_width,
-    window_dots, write,
+    ACCENT, BG0, DISPLAY, FONT_SLOT, LINE, MONO, MUTED, ROOT, TEXT, esc, grain,
+    grain_layer, num, text_width, window_dots, write,
 )
 
 API = "https://api.github.com/graphql"
@@ -209,10 +208,10 @@ def demo() -> Stats:
 
 # --------------------------------------------------------------------- render
 
-U = (10.6, -2.9)   # one week step on screen
-V = (6.0, 4.6)     # one weekday step on screen
-X0, Y0 = 34, 420   # screen position of week 0 / Sunday
-HMAX = 108
+U = (11.4, -3.1)   # one week step on screen
+V = (6.6, 5.0)     # one weekday step on screen
+X0, Y0 = 24, 366   # screen position of week 0 / Sunday
+HMAX = 124
 LEVELS = ["#18181b", "#3b3632", "#6e655c", "#b3a998", "#efe9de"]
 
 
@@ -271,17 +270,17 @@ def skyline(stats: Stats) -> tuple[str, str]:
         if count == peak:
             px, py = iso(w + k / 2, wd + k / 2, h)
             label = f"PEAK {count} · {d:%b %d}".upper()
-            lw = text_width(label, 9.5, 1) + 14
-            if py - 48 >= 170:  # room above the bar
-                box_x, box_y, lead = px - lw / 2, py - 48, f"M {num(px)} {num(py - 4)} V {num(py - 30)}"
-            else:  # too close to the section title: hang the label off to the left
-                box_x, box_y = px - 26 - lw, max(py - 9, 170)
+            lw = text_width(label, 10.5, 1.2) + 18
+            if py - 50 >= 62:  # room above the bar
+                box_x, box_y, lead = px - lw / 2, py - 50, f"M {num(px)} {num(py - 4)} V {num(py - 30)}"
+            else:  # too close to the title bar: hang the label off to the left
+                box_x, box_y = px - 26 - lw, max(py - 10, 62)
                 lead = f"M {num(px - 3)} {num(py - 2)} L {num(px - 26)} {num(box_y + 9)}"
             marks.append(
                 f'<g class="pin"><path d="{lead}" stroke="{ACCENT}" stroke-width="1" fill="none"/>'
                 f'<circle cx="{num(px)}" cy="{num(py - 2)}" r="2.5" fill="{TEXT}"/>'
-                f'<rect x="{num(box_x)}" y="{num(box_y)}" width="{num(lw)}" height="18" rx="4" fill="{BG0}" stroke="{ACCENT}" stroke-opacity=".7"/>'
-                f'<text x="{num(box_x + lw / 2)}" y="{num(box_y + 12.5)}" text-anchor="middle" font-size="9.5" letter-spacing="1" font-weight="700" fill="{ACCENT}">{esc(label)}</text></g>'
+                f'<rect x="{num(box_x)}" y="{num(box_y)}" width="{num(lw)}" height="20" rx="3" fill="{BG0}" stroke="{ACCENT}" stroke-opacity=".7"/>'
+                f'<text x="{num(box_x + lw / 2)}" y="{num(box_y + 14)}" text-anchor="middle" font-size="10.5" letter-spacing="1.2" font-weight="700" fill="{ACCENT}">{esc(label)}</text></g>'
             )
         if d == today:
             tx, ty = iso(w + k / 2, wd + k / 2, h)
@@ -294,21 +293,18 @@ def skyline(stats: Stats) -> tuple[str, str]:
         grid.append(f'<path d="M {num(x1)} {num(y1)} L {num(x2)} {num(y2)}" stroke="{LINE}"/>')
     month_labels = []
     seen = set()
-    for d, _ in stats.days:
-        if d.day <= 7 and (d.year, d.month) not in seen and d.weekday() == 6:
+    for d, _ in stats.days:  # one label per quarter keeps the floor quiet
+        if d.month in (1, 4, 7, 10) and d.day <= 7 and d.weekday() == 6 and (d.year, d.month) not in seen:
             seen.add((d.year, d.month))
             w = (d - origin).days // 7
-            x, y = iso(w, 7.9)
+            x, y = iso(w, 8.2)
+            month = f"{d:%b}".upper()
             month_labels.append(
-                f'<text transform="translate({num(x)} {num(y)}) rotate(-15.3)" font-size="9" fill="{DIM}">{d:%b}</text>'
+                f'<text transform="translate({num(x)} {num(y)}) rotate(-15.2)" font-size="10.5" letter-spacing="1.5" fill="{MUTED}">{month}</text>'
             )
             (gx1, gy1), (gx2, gy2) = iso(w, -0.2), iso(w, 7.2)
-            grid.append(f'<path d="M {num(gx1)} {num(gy1)} L {num(gx2)} {num(gy2)}" stroke="{LINE}" stroke-opacity=".6"/>')
-    wx, wy = iso(-1.2, 1.5)
-    labels = (
-        f'<text x="{num(wx)}" y="{num(wy)}" font-size="8.5" fill="{DIM}" text-anchor="end">Mon</text>'
-        f'<text x="{num(iso(-1.2, 5.5)[0])}" y="{num(iso(-1.2, 5.5)[1])}" font-size="8.5" fill="{DIM}" text-anchor="end">Fri</text>'
-    )
+            grid.append(f'<path d="M {num(gx1)} {num(gy1)} L {num(gx2)} {num(gy2)}" stroke="{LINE}" stroke-opacity=".7"/>')
+    labels = ""
     return "".join(grid) + "".join(month_labels) + labels + "".join(floor), "".join(bars) + "".join(marks)
 
 
@@ -321,8 +317,8 @@ def odometer(value: str, x: float, y: float, size: float, color: str, base_delay
     lh = size * 1.25
     widths = [size * (DIGIT_W if ch.isdigit() else COMMA_W) for ch in value]
     defs = (
-        f'<clipPath id="{cid}"><rect x="{num(x - 2)}" y="{num(y - size * .92)}" '
-        f'width="{num(sum(widths) + 4)}" height="{num(size * 1.02)}"/></clipPath>'
+        f'<clipPath id="{cid}"><rect x="{num(x - 2)}" y="{num(y - size * .78)}" '
+        f'width="{num(sum(widths) + 4)}" height="{num(size * .8)}"/></clipPath>'
     )
     body = [f'<g clip-path="url(#{cid})">']
     digits = [i for i, ch in enumerate(value) if ch.isdigit()]
@@ -346,8 +342,8 @@ def odometer(value: str, x: float, y: float, size: float, color: str, base_delay
 
 
 def render(stats: Stats) -> str:
-    W, H = 980, 520
-    size = 34
+    W, H = 980, 440
+    size = 46
     lh = size * 1.25
     odo_keys = "".join(
         f"@keyframes o{d}{{from{{transform:translateY(0)}}to{{transform:translateY(-{num((10 + d) * lh)}px)}}}}.o{d}{{animation-name:o{d}}}"
@@ -364,153 +360,74 @@ def render(stats: Stats) -> str:
         "@keyframes ping{0%{transform:scale(.6);opacity:1}100%{transform:scale(2.4);opacity:0}}"
         ".ping{transform-box:fill-box;transform-origin:center;animation:ping 1.6s ease-out infinite}"
         "@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}"
-        ".grow{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:grow 1.2s .8s cubic-bezier(.2,.9,.2,1) forwards}"
-        "@keyframes up{from{transform:scaleY(0)}to{transform:scaleY(1)}}"
-        ".up{transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);animation:up .8s cubic-bezier(.2,1.1,.3,1) forwards}"
+        ".grow{transform-box:fill-box;transform-origin:left;transform:scaleX(0);animation:grow 1.4s 1s cubic-bezier(.2,.9,.2,1) forwards}"
         "@keyframes sweep{0%{transform:translateX(-200px)}60%,100%{transform:translateX(900px)}}"
-        ".sweep{animation:sweep 6s 2.2s ease-in-out infinite;transform:translateX(-200px)}"
+        ".sweep{animation:sweep 7s 2.2s ease-in-out infinite;transform:translateX(-200px)}"
         "@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}.blink{animation:blink 1.1s steps(1) infinite}"
         "</style>"
     )
 
-    mode_text, mode_color = {
-        "owner": ("PUBLIC + PRIVATE · OWNER TOKEN", SOFT),
-        "public+private": ("PUBLIC + PRIVATE (ANONYMIZED)", SOFT),
-        "public": ("PUBLIC ONLY · ENABLE PRIVATE COUNTS", GOLD),
-    }[stats.mode]
-
-    active = sum(1 for _, c in stats.days if c > 0)
-    best_day, best = max(stats.days, key=lambda x: (x[1], x[0]))
-    tiles = [
-        ("CONTRIBUTIONS", f"{stats.total_year:,}", "last 12 months", ""),
-        ("ALL-TIME", f"{stats.all_time:,}", f"since {stats.first_year}", ""),
-        ("CURRENT STREAK", str(stats.current_streak), "days in a row", "d"),
-        ("LONGEST STREAK", str(stats.longest_streak), "all-time record", "d"),
-        ("BEST DAY", str(best), f"{best_day:%Y-%m-%d}", ""),
-        ("ACTIVE DAYS", str(active), f"{active * 100 // max(len(stats.days), 1)}% of the year", ""),
+    stats_col = [
+        ("CONTRIBUTIONS · 12 MO", f"{stats.total_year:,}", ""),
+        ("CURRENT STREAK", str(stats.current_streak), "D"),
+        ("LONGEST STREAK", str(stats.longest_streak), "D"),
     ]
-    tile_w, gap, tx0 = 148, 10, 24
-    tile_defs, tile_body = [], []
-    accents = [ACCENT] * 6
-    for i, (label, value, sub, suffix) in enumerate(tiles):
-        x = tx0 + i * (tile_w + gap)
-        tile_body.append(
-            f'<rect x="{x}" y="56" width="{tile_w}" height="76" rx="6" fill="{PANEL}" stroke="{LINE}"/>'
-            f'<rect x="{x}" y="56" width="3" height="76" rx="1.5" fill="{accents[i]}"/>'
-            f'<text x="{x + 14}" y="76" font-size="9" font-weight="700" letter-spacing="1.2" fill="{MUTED}">{label}</text>'
-            f'<text x="{x + 14}" y="125" font-size="9.5" fill="{DIM}">{esc(sub)}</text>'
-        )
-        d, b, vw = odometer(value, x + 14, 112, size, TEXT, 0.25 + i * 0.1, f"od{i}")
-        tile_defs.append(d)
-        tile_body.append(b)
+    show_split = stats.private > 0
+    if not show_split:
+        stats_col.append((f"ALL-TIME · SINCE {stats.first_year}", f"{stats.all_time:,}", ""))
+    sx = 724
+    col_defs, col_body = [], []
+    for i, (label, value, suffix) in enumerate(stats_col):
+        y0 = 62 + i * 84
+        d, b, vw = odometer(value, sx, y0 + 46, size, TEXT, 0.3 + i * 0.15, f"od{i}")
+        col_defs.append(d)
+        col_body.append(b)
         if suffix:
-            tile_body.append(f'<text class="dp" x="{num(x + 18 + vw)}" y="112" font-size="18" fill="{accents[i]}">{suffix}</text>')
+            col_body.append(f'<text class="dp" x="{num(sx + 6 + vw)}" y="{y0 + 46}" font-size="24" fill="{ACCENT}">{suffix}</text>')
+        col_body.append(f'<text x="{sx + 1}" y="{y0 + 68}" font-size="11" font-weight="700" letter-spacing="2" fill="{MUTED}">{esc(label)}</text>')
+        if i < len(stats_col) - 1 or show_split:
+            col_body.append(f'<rect x="{sx}" y="{y0 + 80}" width="232" height="1" fill="{LINE}"/>')
+
+    split = ""
+    if show_split:
+        public = max(stats.total_year - stats.private, 0)
+        pw = 232
+        share = public / max(stats.total_year, 1)
+        y0 = 62 + 3 * 84 + 8
+        split = (
+            f'<text x="{sx + 1}" y="{y0 + 14}" font-size="11" font-weight="700" letter-spacing="2" fill="{MUTED}">PUBLIC / PRIVATE</text>'
+            f'<g class="grow"><rect x="{sx}" y="{y0 + 26}" width="{num(max(pw * share - 2, 2))}" height="6" fill="{TEXT}"/>'
+            f'<rect x="{num(sx + pw * share)}" y="{y0 + 26}" width="{num(pw * (1 - share))}" height="6" fill="{ACCENT}"/></g>'
+            f'<text class="dp" x="{sx}" y="{y0 + 64}" font-size="24" fill="{TEXT}">{public:,}</text>'
+            f'<text class="dp" x="{sx + pw}" y="{y0 + 64}" text-anchor="end" font-size="24" fill="{ACCENT}">{stats.private:,}</text>'
+        )
 
     floor, bars = skyline(stats)
-
-    # Breakdown of what the contributions are made of.
-    parts = [
-        ("commits", stats.commits, TEXT),
-        ("pull requests", stats.pull_requests, STEEL),
-        ("code reviews", stats.reviews, ASH),
-        ("issues", stats.issues, GOLD),
-        ("private (anon)", stats.private, ACCENT),
-    ]
-    other = max(stats.total_year - sum(v for _, v, _ in parts), 0)
-    if other:
-        parts.append(("other", other, DIM))
-    parts = [p for p in parts if p[1] > 0]
-    total_parts = sum(v for _, v, _ in parts) or 1
-    px0, pw = 718, 238
-    seg, cursor = [], px0
-    for _, value, color in parts:
-        w = pw * value / total_parts
-        seg.append(f'<rect x="{num(cursor)}" y="178" width="{num(max(w - 1.5, .5))}" height="10" fill="{color}"/>')
-        cursor += w
-    legend = []
-    for i, (name, value, color) in enumerate(parts):
-        y = 212 + i * 19
-        legend.append(
-            f'<rect x="{px0}" y="{y - 8}" width="8" height="8" rx="2" fill="{color}"/>'
-            f'<text x="{px0 + 16}" y="{y}" font-size="10.5" fill="{TEXT}" fill-opacity=".85">{esc(name)}</text>'
-            f'<text x="{px0 + pw}" y="{y}" text-anchor="end" font-size="10.5" font-weight="700" fill="{TEXT}">{value:,}</text>'
-        )
-
-    # Weekday rhythm (average contributions per weekday).
-    sums, counts_ = [0] * 7, [0] * 7
-    for d, c in stats.days:
-        wd = (d.weekday() + 1) % 7
-        sums[wd] += c
-        counts_[wd] += 1
-    avgs = [s / n if n else 0 for s, n in zip(sums, counts_)]
-    top = max(avgs) or 1
-    wy0 = 466
-    week_bars = []
-    for i, avg in enumerate(avgs):
-        h = 6 + 50 * avg / top
-        x = px0 + 6 + i * 33
-        color = ACCENT if avg == top else STEEL
-        week_bars.append(
-            f'<rect class="up" style="animation-delay:{1.2 + i * .07:.2f}s" x="{x}" y="{num(wy0 - h)}" width="20" height="{num(h)}" rx="3" fill="{color}" fill-opacity="{1 if avg == top else .3}"/>'
-            f'<text x="{x + 10}" y="{wy0 + 14}" text-anchor="middle" font-size="9.5" fill="{MUTED}">{"SMTWTFS"[i]}</text>'
-        )
-    busiest = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][avgs.index(top)]
-
-    months: dict[tuple[int, int], int] = {}
-    for d, c in stats.days:
-        months[(d.year, d.month)] = months.get((d.year, d.month), 0) + c
-    (my, mm), mtotal = max(months.items(), key=lambda kv: kv[1])
-    weekend = sum(c for d, c in stats.days if d.weekday() >= 5)
-    signals = [
-        ("busiest month", f"{date(my, mm, 1):%b %Y} · {mtotal:,}"),
-        ("avg per active day", f"{sum(c for _, c in stats.days) / max(active, 1):.1f}"),
-        ("weekend share", f"{weekend * 100 // max(sum(c for _, c in stats.days), 1)}%"),
-    ]
-    sig_y0 = 212 + len(parts) * 19 + 16
-    signal_svg = "".join(
-        f'<text x="{px0}" y="{sig_y0 + i * 16}" font-size="10" fill="{MUTED}">{esc(k)}</text>'
-        f'<text x="{px0 + pw}" y="{sig_y0 + i * 16}" text-anchor="end" font-size="10" font-weight="700" fill="{ACCENT}">{esc(v)}</text>'
-        for i, (k, v) in enumerate(signals)
-    )
-
-    mw = text_width(mode_text, 9.5, 1.2) + 30
-    stamp = stats.generated.strftime("%Y-%m-%d %H:%M") + f" UTC{stats.generated.utcoffset().total_seconds() / 3600:+.0f}"
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-labelledby="t d">
 <title id="t">Engineering activity</title>
-<desc id="d">{stats.total_year:,} contributions in the last 12 months, {stats.all_time:,} since {stats.first_year}. Current streak {stats.current_streak} days, longest {stats.longest_streak} days.</desc>
+<desc id="d">{stats.total_year:,} contributions in the last 12 months ({stats.private:,} in private repositories), {stats.all_time:,} since {stats.first_year}. Current streak {stats.current_streak} days, longest {stats.longest_streak} days.</desc>
 {style}
 <defs>
 <clipPath id="frame"><rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="18"/></clipPath>
-<clipPath id="sky"><rect x="0" y="140" width="700" height="350"/></clipPath>
+<clipPath id="sky"><rect x="0" y="40" width="700" height="{H - 40}"/></clipPath>
 <radialGradient id="glow" cx="30%" cy="85%" r="60%"><stop offset="0" stop-color="#2e0f0b" stop-opacity=".8"/><stop offset="1" stop-color="{BG0}" stop-opacity="0"/></radialGradient>
 <linearGradient id="sw" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
 {grain()}
-{"".join(tile_defs)}
+{"".join(col_defs)}
 </defs>
 <g clip-path="url(#frame)">
 <rect width="{W}" height="{H}" fill="{BG0}"/>
 <rect width="{W}" height="{H}" fill="url(#glow)"/>
-<rect width="{W}" height="40" fill="#000" fill-opacity=".45"/>
-<path d="M0 40.5H{W}" stroke="{LINE}"/>
-{window_dots()}
-<text x="78" y="24.5" font-size="11.5" fill="{MUTED}"><tspan fill="{ACCENT}">$</tspan> git log --all --since=1y <tspan fill="{DIM}">|</tspan> skyline --3d<tspan class="blink" fill="{ACCENT}"> _</tspan></text>
-<rect x="{num(W - 18 - mw)}" y="9" width="{num(mw)}" height="22" rx="3" fill="{BG0}" stroke="{LINE}"/>
-<circle cx="{num(W - 18 - mw + 13)}" cy="20" r="3" fill="{ACCENT}" class="blink"/>
-<text x="{num(W - 18 - mw + 22)}" y="23.5" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="{mode_color}">{mode_text}</text>
-{"".join(tile_body)}
-<text x="24" y="160" font-size="10" font-weight="700" letter-spacing="1.4" fill="{MUTED}">CONTRIBUTION SKYLINE <tspan fill="{DIM}" font-weight="400">· 1 block = 1 day · height = volume</tspan></text>
+<rect width="{W}" height="36" fill="#000" fill-opacity=".45"/>
+<path d="M0 36.5H{W}" stroke="{LINE}"/>
+{window_dots(18)}
+<text x="{W - 24}" y="22.5" text-anchor="end" font-size="10.5" font-weight="700" letter-spacing="2" fill="{MUTED}"><tspan class="blink" fill="{ACCENT}">●</tspan> LAST 12 MONTHS</text>
 {floor}
 {bars}
-<g clip-path="url(#sky)"><rect class="sweep" x="0" y="150" width="160" height="320" fill="url(#sw)" transform="skewX(-20)"/></g>
-<path d="M 702 150 V 494" stroke="{LINE}"/>
-<text x="{px0}" y="160" font-size="10" font-weight="700" letter-spacing="1.4" fill="{MUTED}">BREAKDOWN</text>
-<g class="grow">{"".join(seg)}</g>
-{"".join(legend)}
-<path d="M {px0} {sig_y0 - 15} h {pw}" stroke="{LINE}" stroke-dasharray="2 3"/>
-{signal_svg}
-<text x="{px0}" y="{wy0 - 72}" font-size="10" font-weight="700" letter-spacing="1.4" fill="{MUTED}">WEEKDAY RHYTHM <tspan fill="{ACCENT}" font-weight="400">· peak {busiest}</tspan></text>
-{"".join(week_bars)}
-<text x="24" y="504" font-size="9.5" fill="{DIM}">source: GitHub GraphQL contributionsCollection · aggregate counts only · refreshed {esc(stamp)}</text>
+<g clip-path="url(#sky)"><rect class="sweep" x="0" y="40" width="160" height="{H - 40}" fill="url(#sw)" transform="skewX(-20)"/></g>
+<path d="M 700 58 V {H - 22}" stroke="{LINE}"/>
+{"".join(col_body)}
+{split}
 {grain_layer(W, H)}
 </g>
 <rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="18" fill="none" stroke="{LINE}" stroke-width="1.5"/>
