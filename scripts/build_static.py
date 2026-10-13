@@ -736,7 +736,7 @@ def journey() -> str:
 <g class="reel">{"".join(holes)}{"".join(frames)}</g>
 <rect x="0" y="{top}" width="{W}" height="{bottom - top}" fill="#fff" class="flk"/>
 <rect width="{W}" height="{H}" fill="url(#edgeFade)"/>
-<text x="24" y="22" font-size="9.5" letter-spacing="2" fill="{DIM}">REEL 01 · AY-MR · <tspan fill="{SOFT}">2025 -&gt; NOW</tspan></text>
+<text x="24" y="22" font-size="9.5" letter-spacing="2" fill="{DIM}">REEL 01 · AY-MR · <tspan fill="{SOFT}">ORIGINS -&gt; NOW</tspan></text>
 <text x="{W - 24}" y="22" text-anchor="end" font-size="9.5" letter-spacing="2" fill="{ACCENT}"><tspan class="blink">●</tspan> <tspan fill="{SOFT}">PLAYING</tspan></text>
 <text x="24" y="{H - 10}" font-size="9" letter-spacing="1.6" fill="{DIM}">35MM · 24 FPS · ONLY PUBLICLY VERIFIABLE MILESTONES</text>
 {grain_layer(W, H, moving=True)}
