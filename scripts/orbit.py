@@ -43,6 +43,7 @@ RINGS = [  # (radius, capacity, seconds per revolution, avatar radius)
 ]
 TILT = 0.42
 CX, CY = 490, 262
+CYCLE = 15  # seconds per burst -> orbit -> implode loop
 
 
 # ----------------------------------------------------------------------- data
@@ -237,10 +238,17 @@ def render(demo: bool = False) -> str:
         + depth_keyframes() +
         ".spin{animation-name:spin;animation-timing-function:linear;animation-iteration-count:infinite}"
         ".cspin{animation-name:cspin;animation-timing-function:linear;animation-iteration-count:infinite}"
-        f"@keyframes burst{{0%{{transform:scale(0);opacity:0}}55%{{transform:scale(1.14);opacity:1}}75%{{transform:scale(.97)}}100%{{transform:scale(1);opacity:1}}}}"
-        f".burst{{transform-origin:{CX}px {CY}px;transform:scale(0);opacity:0;animation:burst 1.1s cubic-bezier(.2,.9,.3,1.25) forwards}}"
-        f"@keyframes shock{{0%{{transform:scale(.2);opacity:.9}}100%{{transform:scale(9);opacity:0}}}}"
-        f".shock{{transform-origin:{CX}px {CY}px;animation:shock 1.4s .2s ease-out both}}"
+        # GitHub strips loading="lazy", so the image inside <details> starts with the page.
+        # Loop burst -> orbit -> implode so opening the panel always catches a burst soon.
+        f"@keyframes burst{{0%{{transform:scale(0);opacity:0}}4%{{transform:scale(1.16);opacity:1}}"
+        f"6%{{transform:scale(.96)}}8%,86%{{transform:scale(1);opacity:1}}91%{{transform:scale(1.12);opacity:1}}"
+        f"96%,100%{{transform:scale(0);opacity:0}}}}"
+        f".burst{{transform-origin:{CX}px {CY}px;transform:scale(0);opacity:0;"
+        f"animation:burst {CYCLE}s cubic-bezier(.25,.8,.3,1) infinite}}"
+        f"@keyframes shock{{0%{{transform:scale(.2);opacity:.9}}8%,100%{{transform:scale(9);opacity:0}}}}"
+        f".shock{{transform-origin:{CX}px {CY}px;opacity:0;animation:shock {CYCLE}s .2s ease-out infinite}}"
+        f"@keyframes flash{{0%,92%{{opacity:0;transform:scale(.4)}}97%{{opacity:.9;transform:scale(1.3)}}100%{{opacity:0;transform:scale(.4)}}}}"
+        f".flash{{transform-origin:{CX}px {CY}px;opacity:0;animation:flash {CYCLE}s 1.2s ease-in infinite}}"
         "@keyframes pulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.9);opacity:0}}"
         f".pulse{{transform-origin:{CX}px {CY}px;animation:pulse 2.4s ease-out infinite}}"
         "@keyframes tw{0%,100%{opacity:.15}50%{opacity:.8}}.star{animation:tw 3.6s ease-in-out infinite}"
@@ -270,6 +278,7 @@ def render(demo: bool = False) -> str:
 {"".join(stars)}
 {"".join(rings_svg)}
 <circle class="shock" cx="{CX}" cy="{CY}" r="20" fill="none" stroke="{MINT}" stroke-width="2"/>
+<circle class="flash" cx="{CX}" cy="{CY}" r="60" fill="{MINT}" fill-opacity=".25"/>
 <circle class="pulse" cx="{CX}" cy="{CY}" r="46" fill="none" stroke="{MINT}" stroke-opacity=".6"/>
 <g class="rot"><circle cx="{CX}" cy="{CY}" r="52" fill="none" stroke="{CYAN}" stroke-opacity=".55" stroke-dasharray="14 8 2 8"/></g>
 <circle cx="{CX}" cy="{CY}" r="43" fill="{BG0}" stroke="{MINT}" stroke-width="2"/>

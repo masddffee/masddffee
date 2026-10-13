@@ -752,77 +752,86 @@ ABOUT = [
 
 
 def decrypt() -> str:
+    """Scramble -> decrypt -> unlock, then re-encrypt and loop.
+
+    Driven by one SMIL master clock (`clk`) because the README shows this inside
+    a <details> panel: GitHub strips loading="lazy", so the image starts with the
+    page and a one-shot animation would be over before anyone clicks.
+    """
     W = 980
     H = 92 + len(ABOUT) * 30 + 20
+    cycle = 13.0
     rng = random.Random(3)
     noise = "ABCDEF0123456789#$%&*+=<>/\\[]{}?!"
     frames = 7
     step = 0.06
+    hide_at = cycle - 0.7  # re-encrypt shortly before the loop restarts
+
+    def at(t: float) -> str:
+        return f"clk.begin+{t:.2f}s"
+
+    def show(t: float, until: float) -> str:
+        return f'<set attributeName="opacity" to="1" begin="{at(t)}" dur="{until - t:.2f}s"/>'
+
     body = []
     for i, (key, value) in enumerate(ABOUT):
         y = 104 + i * 30
         start = 1.25 + i * 0.28
-        body.append(f'<text x="40" y="{y}" font-size="12.5" font-weight="700" letter-spacing="1.5" fill="{MINT}" class="ap" style="animation-delay:{start - .2:.2f}s">{key}</text>')
+        body.append(
+            f'<text x="40" y="{y}" opacity="0" font-size="12.5" font-weight="700" letter-spacing="1.5" fill="{MINT}">{key}'
+            f'{show(start - .2, hide_at)}</text>'
+        )
         for f in range(frames):
             garbage = "".join(" " if ch == " " else rng.choice(noise) for ch in value)
+            t = start + f * step
             body.append(
-                f'<text class="fr" style="animation-delay:{start + f * step:.2f}s" x="190" y="{y}" font-size="14" fill="{CYAN}" fill-opacity=".75">{esc(garbage)}</text>'
+                f'<text opacity="0" x="190" y="{y}" font-size="14" fill="{CYAN}" fill-opacity=".75">{esc(garbage)}{show(t, t + step)}</text>'
             )
+        reveal = start + frames * step
+        body.append(f'<text opacity="0" x="190" y="{y}" font-size="14" fill="{TEXT}">{esc(value)}{show(reveal, hide_at)}</text>')
+        # Re-encryption glitch: one burst of noise over the line before it disappears.
+        garbage = "".join(" " if ch == " " else rng.choice(noise) for ch in value)
         body.append(
-            f'<text class="ap" style="animation-delay:{start + frames * step:.2f}s" x="190" y="{y}" font-size="14" fill="{TEXT}">{esc(value)}</text>'
+            f'<text opacity="0" x="190" y="{y}" font-size="14" fill="{PINK}" fill-opacity=".8">{esc(garbage)}{show(hide_at, hide_at + .35)}</text>'
         )
     bar_w = 420
-    total = 1.25 + len(ABOUT) * 0.28 + frames * step
-    # Right-hand panel: a hex stream behind a padlock that unlocks when done.
+    done = 1.25 + len(ABOUT) * 0.28 + frames * step
     hex_rows = []
-    for r in range(24):
+    for _ in range(30):
         row = " ".join(f"{rng.randrange(256):02x}" for _ in range(8))
         hex_rows.append(f'<tspan x="650" dy="15">{row}</tspan>')
     lx, ly = 862, 150
     style = base_style(
-        "@keyframes fr{0%,100%{opacity:0}1%,99%{opacity:1}}"
-        f".fr{{opacity:0;animation:fr {step:.2f}s linear both}}"
-        "@keyframes ap{from{opacity:0}to{opacity:1}}"
-        ".ap{opacity:0;animation:ap .01s linear both}"
-        "@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}"
-        ".bar{transform-box:fill-box;transform-origin:left;animation:fill 1s .15s cubic-bezier(.3,.7,.2,1) both}"
-        f"@keyframes pct{{from{{opacity:0}}to{{opacity:1}}}}"
-        ".done{opacity:0;animation:pct .2s 1.15s both}"
-        "@keyframes wipe{0%{transform:translateY(-30px)}100%{transform:translateY(" + str(H + 30) + "px)}}"
-        f".wipe{{animation:wipe 1.4s {total:.2f}s ease-in both}}"
         "@keyframes hex{from{transform:translateY(0)}to{transform:translateY(-180px)}}"
         ".hex{animation:hex 9s linear infinite}"
-        f"@keyframes hexok{{to{{fill:{MINT};fill-opacity:.32}}}}"
-        f".hexc{{animation:hexok .6s {total:.2f}s both}}"
-        "@keyframes shackle{0%,70%{transform:translateY(0)}100%{transform:translateY(-11px)}}"
-        f".shk{{animation:shackle .7s {total - .2:.2f}s cubic-bezier(.3,1.6,.5,1) both}}"
-        f"@keyframes lockok{{to{{stroke:{MINT};fill:{MINT};fill-opacity:.14}}}}"
-        f".lk{{animation:lockok .4s {total:.2f}s both}}"
-        "@keyframes granted{0%{opacity:0;transform:scale(1.4)}100%{opacity:1;transform:scale(1)}}"
-        f".gr{{opacity:0;transform-box:fill-box;transform-origin:center;animation:granted .35s {total + .25:.2f}s ease-out both}}"
     )
+    unlocked = f'begin="{at(done)}" dur="{hide_at - done:.2f}s"'
+    k1, k2 = 1 / cycle, hide_at / cycle
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Decrypted profile: {esc(" / ".join(v for _, v in ABOUT))}">
 {style}
 <defs><linearGradient id="bar" x1="0" x2="1"><stop offset="0" stop-color="{MINT}"/><stop offset="1" stop-color="{CYAN}"/></linearGradient>
 <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{MINT}" stop-opacity="0"/><stop offset="1" stop-color="{MINT}" stop-opacity=".18"/></linearGradient>
 <pattern id="lines" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#000" fill-opacity=".25"/></pattern>
-<clipPath id="c"><rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="16"/></clipPath></defs>
+<clipPath id="c"><rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="16"/></clipPath>
+<clipPath id="hx"><rect x="640" y="24" width="320" height="{H - 48}"/></clipPath></defs>
+<rect width="0" height="0"><animate id="clk" attributeName="x" from="0" to="0" begin="0s;clk.end" dur="{cycle}s"/></rect>
 <g clip-path="url(#c)">
 <rect width="{W}" height="{H}" fill="{BG0}"/>
 <text x="40" y="44" font-size="13" fill="{MUTED}"><tspan fill="{MINT}" font-weight="700">$</tspan> decrypt ./about.enc --key=curiosity</text>
 <rect x="40" y="58" width="{bar_w}" height="8" rx="4" fill="{LINE}"/>
-<rect class="bar" x="40" y="58" width="{bar_w}" height="8" rx="4" fill="url(#bar)"/>
-<text x="{48 + bar_w}" y="66" font-size="11" fill="{MINT}" class="done" font-weight="700">100% · key accepted</text>
-<clipPath id="hx"><rect x="640" y="24" width="320" height="{H - 48}"/></clipPath>
-<g clip-path="url(#hx)"><g class="hex"><text class="hexc" y="24" font-size="11" fill="{CYAN}" fill-opacity=".22" letter-spacing="1">{"".join(hex_rows)}</text></g></g>
+<rect x="40" y="58" width="0" height="8" rx="4" fill="url(#bar)">
+<animate attributeName="width" values="0;{bar_w};{bar_w};0" keyTimes="0;{k1:.4f};{k2:.4f};1" begin="{at(.15)}" dur="{cycle - .15:.2f}s" calcMode="spline" keySplines=".3 .7 .2 1;0 0 1 1;.4 0 1 1"/></rect>
+<text x="{48 + bar_w}" y="66" opacity="0" font-size="11" fill="{MINT}" font-weight="700">100% · key accepted{show(1.15, hide_at)}</text>
+<g clip-path="url(#hx)"><g class="hex"><text y="24" font-size="11" fill="{CYAN}" fill-opacity=".22" letter-spacing="1">{"".join(hex_rows)}<set attributeName="fill" to="{MINT}" {unlocked}/></text></g></g>
 <rect x="{lx - 70}" y="{ly - 72}" width="140" height="150" rx="14" fill="{BG0}" fill-opacity=".82"/>
-<g class="shk"><path d="M {lx - 17} {ly - 4} v -16 a 17 17 0 0 1 34 0 v 16" fill="none" stroke="{CYAN}" stroke-width="5" stroke-linecap="round" class="lk"/></g>
-<rect class="lk" x="{lx - 29}" y="{ly - 6}" width="58" height="46" rx="9" fill="{CYAN}" fill-opacity=".1" stroke="{CYAN}" stroke-width="2.4"/>
+<g><animateTransform attributeName="transform" type="translate" values="0 0;0 -11;0 -11;0 0" keyTimes="0;.06;.94;1" {unlocked}/>
+<path d="M {lx - 17} {ly - 4} v -16 a 17 17 0 0 1 34 0 v 16" fill="none" stroke="{CYAN}" stroke-width="5" stroke-linecap="round"><set attributeName="stroke" to="{MINT}" {unlocked}/></path></g>
+<rect x="{lx - 29}" y="{ly - 6}" width="58" height="46" rx="9" fill="{CYAN}" fill-opacity=".1" stroke="{CYAN}" stroke-width="2.4"><set attributeName="stroke" to="{MINT}" {unlocked}/><set attributeName="fill" to="{MINT}" {unlocked}/></rect>
 <circle cx="{lx}" cy="{ly + 12}" r="5" fill="{TEXT}"/><rect x="{lx - 2}" y="{ly + 14}" width="4" height="12" rx="2" fill="{TEXT}"/>
-<g class="gr"><rect x="{lx - 64}" y="{ly + 52}" width="128" height="22" rx="4" fill="{MINT}"/>
+<g opacity="0">{show(done + .2, hide_at)}<rect x="{lx - 64}" y="{ly + 52}" width="128" height="22" rx="4" fill="{MINT}"/>
 <text x="{lx}" y="{ly + 67}" text-anchor="middle" font-size="10.5" font-weight="800" letter-spacing="1.6" fill="{BG0}">ACCESS GRANTED</text></g>
 {"".join(body)}
-<rect class="wipe" x="0" y="0" width="{W}" height="30" fill="url(#wg)"/>
+<rect x="0" y="-30" width="{W}" height="30" fill="url(#wg)"><animateTransform attributeName="transform" type="translate" from="0 0" to="0 {H + 30}" begin="{at(done)}" dur="1.4s"/></rect>
 <rect width="{W}" height="{H}" fill="url(#lines)"/>
 </g>
 <rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="16" fill="none" stroke="{MINT}" stroke-opacity=".35"/>
