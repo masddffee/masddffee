@@ -9,7 +9,7 @@
 
 <p>
 I turn <b>AI/ML ideas into shipped software</b> — model experiments, agent tooling and mobile apps that people actually download.<br/>
-<sub>把 AI 點子做成真正上線、有人在用的產品 · Taiwan 🇹🇼</sub>
+<sub>把 AI 點子做成真正上線、有人在用的產品 · Taiwan</sub>
 </p>
 
 </div>
@@ -43,16 +43,21 @@ I turn <b>AI/ML ideas into shipped software</b> — model experiments, agent too
   <a href="https://play.google.com/store/apps/details?id=com.zonr.app"><img src="./assets/cards/store-play.svg" height="46" alt="Get Zonr on Google Play" /></a>
 </p>
 
-<img src="./assets/cards/h-stack.svg" width="100%" alt="02 — Tech stack" />
+<br/>
+<img src="./assets/cards/h-journey.svg" width="100%" alt="02 — The journey" />
+<img src="./assets/cards/journey.svg" width="100%" alt="Journey film strip: ML Snake (DQN agent) → Smart Oven (contactless AIoT) → Zonr ships on iOS + Google Play (2026) → WorldSkills BeChangeMaker 2026 Global Top 15 → Play Preflight (2026.06) → LensGuard (2026.09) → next frame" />
+
+<br/><br/>
+<img src="./assets/cards/h-stack.svg" width="100%" alt="03 — Tech stack" />
 <img src="./assets/cards/stack.svg" width="100%" alt="Tech stack: Python, PyTorch, TensorFlow, OpenCV, NVIDIA VLMs, Claude Code, TypeScript, React, Next.js, Node.js, FastAPI, Tailwind, Supabase, Rust, Tauri, C++, SQLite, Docker, Cloudflare, Raspberry Pi, GitHub Actions" />
 
 <br/><br/>
-<img src="./assets/cards/h-activity.svg" width="100%" alt="03 — Engineering activity" />
+<img src="./assets/cards/h-activity.svg" width="100%" alt="04 — Engineering activity" />
 <img src="./metrics/activity.svg" width="100%" alt="Contribution skyline: last 12 months of GitHub contributions as a 3D city, with streaks and breakdown" />
 
 <p align="center"><sub>Rendered daily by GitHub Actions from the GraphQL <code>contributionsCollection</code> — the same data as the green squares, with private work counted anonymously. No repository names or commit messages are ever drawn.</sub></p>
 
-<img src="./assets/cards/h-orbit.svg" width="100%" alt="04 — The orbit" />
+<img src="./assets/cards/h-orbit.svg" width="100%" alt="05 — The orbit" />
 
 <details>
 <summary><kbd>&nbsp;▶ CLICK TO SUMMON&nbsp;</kbd>&nbsp; <b>the orbit</b> &nbsp;<sub>every avatar here was dropped in by a visitor</sub></summary>
@@ -61,7 +66,7 @@ I turn <b>AI/ML ideas into shipped software</b> — model experiments, agent too
 </details>
 
 <p align="center">
-  🛸 <a href="https://github.com/masddffee/masddffee/issues/new?title=orbit%3A%20join&body=Hit%20%2A%2ASubmit%20new%20issue%2A%2A%20to%20drop%20your%20avatar%20into%20the%20orbit%20on%20my%20profile%20README.%0A%0AA%20GitHub%20Action%20adds%20your%20public%20username%20%2B%20avatar%2C%20re-renders%20the%20orbit%20and%20closes%20this%20issue%20automatically.%20Nothing%20else%20is%20collected."><b>Join the orbit</b></a> — submit the pre-filled issue and a GitHub Action drops your avatar in within a minute.
+  ▸ <a href="https://github.com/masddffee/masddffee/issues/new?title=orbit%3A%20join&body=Hit%20%2A%2ASubmit%20new%20issue%2A%2A%20to%20drop%20your%20avatar%20into%20the%20orbit%20on%20my%20profile%20README.%0A%0AA%20GitHub%20Action%20adds%20your%20public%20username%20%2B%20avatar%2C%20re-renders%20the%20orbit%20and%20closes%20this%20issue%20automatically.%20Nothing%20else%20is%20collected."><b>Join the orbit</b></a> — submit the pre-filled issue and a GitHub Action drops your avatar in within a minute.
 </p>
 
-<img src="./assets/cards/footer.svg" width="100%" alt="build → measure → ship → learn" />
+<img src="./assets/cards/footer.svg" width="100%" alt="Fin. — build → measure → ship → learn" />

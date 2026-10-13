@@ -11,7 +11,6 @@ Inputs come from the issue *author* (set by GitHub), never from issue text.
 from __future__ import annotations
 
 import base64
-import colorsys
 import json
 import math
 import os
@@ -23,8 +22,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from svgkit import (  # noqa: E402
-    BG0, CYAN, DIM, FONT_SLOT, LINE, MINT, MONO, MUTED, PINK, RED, ROOT, TEXT,
-    VIOLET, esc, num, text_width, write,
+    ACCENT, BG0, DIM, FONT_SLOT, GOLD, LINE, MONO, MUTED, ROOT, SOFT, STEEL,
+    TEXT, esc, grain, grain_layer, num, text_width, window_dots, write,
 )
 
 DATA = ROOT / "data" / "orbit.json"
@@ -132,13 +131,12 @@ def avatar(user_id: int, size: int) -> str | None:
 
 
 def placeholder(login: str) -> str:
-    """Identicon-style fallback so a failed download never breaks the card."""
-    hue = (sum(map(ord, login)) * 37 % 360) / 360
-    r, g, b = (int(c * 255) for c in colorsys.hls_to_rgb(hue, .55, .6))
+    """Monochrome initial so a failed avatar download never breaks the card."""
+    shade = 28 + sum(map(ord, login)) % 24
     initial = esc(login[:1].upper())
     svg = (
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="64" height="64" fill="rgb({r},{g},{b})"/>'
-        f'<text x="32" y="43" text-anchor="middle" font-family="monospace" font-size="30" font-weight="700" fill="#fff">{initial}</text></svg>'
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect width="64" height="64" fill="rgb({shade},{shade},{shade + 2})"/>'
+        f'<text x="32" y="43" text-anchor="middle" font-family="monospace" font-size="30" font-weight="700" fill="{TEXT}">{initial}</text></svg>'
     )
     return "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode("ascii")
 
@@ -183,14 +181,14 @@ def render(demo: bool = False) -> str:
         rng_seed = (rng_seed * 1103515245 + 12345) & 0x7FFFFFFF
         y = 44 + rng_seed % (H - 60)
         r = 0.6 + (i % 3) * 0.45
-        stars.append(f'<circle class="star" style="animation-delay:{-(i % 7) * .6:.1f}s" cx="{x}" cy="{y}" r="{r:.2f}" fill="#fff"/>')
+        stars.append(f'<circle class="star" style="animation-delay:{-(i % 7) * .6:.1f}s" cx="{x}" cy="{y}" r="{r:.2f}" fill="{TEXT}"/>')
 
     rings_svg, people, slots = [], [], []
     index = 0
     for ring_no, (radius, cap, period, ar) in enumerate(RINGS):
         rings_svg.append(
-            f'<ellipse cx="{CX}" cy="{CY}" rx="{radius}" ry="{num(radius * TILT)}" fill="none" stroke="{[MINT, CYAN, PINK][ring_no]}" '
-            f'stroke-opacity=".28" stroke-dasharray="{"3 6" if ring_no else "1 5"}"/>'
+            f'<ellipse cx="{CX}" cy="{CY}" rx="{radius}" ry="{num(radius * TILT)}" fill="none" stroke="{[TEXT, STEEL, GOLD][ring_no]}" '
+            f'stroke-opacity="{[.22, .16, .2][ring_no]}" stroke-dasharray="{"3 6" if ring_no else "1 5"}"/>'
         )
         ring_members = visible[index:index + cap]
         index += cap
@@ -205,15 +203,15 @@ def render(demo: bool = False) -> str:
             is_ghost = j >= count
             if is_ghost:
                 inner = (
-                    f'<circle r="{ar}" fill="{BG0}" stroke="{MINT}" stroke-opacity=".7" stroke-dasharray="3 3"/>'
-                    f'<text y="5" text-anchor="middle" font-size="15" font-weight="700" fill="{MINT}">?</text>'
-                    f'<text y="{ar + 13}" text-anchor="middle" font-size="9" fill="{MINT}">you?</text>'
+                    f'<circle r="{ar}" fill="{BG0}" stroke="{TEXT}" stroke-opacity=".45" stroke-dasharray="3 3"/>'
+                    f'<text y="5" text-anchor="middle" font-size="15" font-weight="700" fill="{ACCENT}">?</text>'
+                    f'<text y="{ar + 13}" text-anchor="middle" font-size="9" fill="{MUTED}">you?</text>'
                 )
             else:
                 m = ring_members[j]
                 img = placeholder(m["login"]) if demo else (avatar(m["id"], ar * 4) or placeholder(m["login"]))
                 label = m["login"] if len(m["login"]) <= 13 else m["login"][:12] + "…"
-                ring_color = MINT if m["id"] in guest_ids or demo else CYAN
+                ring_color = ACCENT if m["id"] in guest_ids or demo else STEEL
                 inner = (
                     f'<circle r="{ar + 2.5}" fill="{BG0}" stroke="{ring_color}" stroke-width="1.4"/>'
                     f'<image href="{img}" x="{-ar}" y="{-ar}" width="{2 * ar}" height="{2 * ar}" clip-path="url(#round)"/>'
@@ -269,34 +267,34 @@ def render(demo: bool = False) -> str:
 <clipPath id="frame"><rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="18"/></clipPath>
 <clipPath id="round" clipPathUnits="objectBoundingBox"><circle cx=".5" cy=".5" r=".5"/></clipPath>
 <clipPath id="me"><circle cx="{CX}" cy="{CY}" r="40"/></clipPath>
-<radialGradient id="core" cx="50%" cy="56%" r="55%"><stop offset="0" stop-color="#16314a" stop-opacity=".95"/><stop offset=".55" stop-color="#0b1424" stop-opacity=".6"/><stop offset="1" stop-color="{BG0}" stop-opacity="0"/></radialGradient>
-<pattern id="lines" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#000" fill-opacity=".22"/></pattern>
+<radialGradient id="core" cx="50%" cy="56%" r="55%"><stop offset="0" stop-color="#2a100c" stop-opacity=".85"/><stop offset=".5" stop-color="#140c0b" stop-opacity=".55"/><stop offset="1" stop-color="{BG0}" stop-opacity="0"/></radialGradient>
+{grain()}
 </defs>
 <g clip-path="url(#frame)">
 <rect width="{W}" height="{H}" fill="{BG0}"/>
 <rect width="{W}" height="{H}" fill="url(#core)"/>
 {"".join(stars)}
 {"".join(rings_svg)}
-<circle class="shock" cx="{CX}" cy="{CY}" r="20" fill="none" stroke="{MINT}" stroke-width="2"/>
-<circle class="flash" cx="{CX}" cy="{CY}" r="60" fill="{MINT}" fill-opacity=".25"/>
-<circle class="pulse" cx="{CX}" cy="{CY}" r="46" fill="none" stroke="{MINT}" stroke-opacity=".6"/>
-<g class="rot"><circle cx="{CX}" cy="{CY}" r="52" fill="none" stroke="{CYAN}" stroke-opacity=".55" stroke-dasharray="14 8 2 8"/></g>
-<circle cx="{CX}" cy="{CY}" r="43" fill="{BG0}" stroke="{MINT}" stroke-width="2"/>
+<circle class="shock" cx="{CX}" cy="{CY}" r="20" fill="none" stroke="{ACCENT}" stroke-width="2"/>
+<circle class="flash" cx="{CX}" cy="{CY}" r="60" fill="{TEXT}" fill-opacity=".18"/>
+<circle class="pulse" cx="{CX}" cy="{CY}" r="46" fill="none" stroke="{ACCENT}" stroke-opacity=".6"/>
+<g class="rot"><circle cx="{CX}" cy="{CY}" r="52" fill="none" stroke="{STEEL}" stroke-opacity=".55" stroke-dasharray="14 8 2 8"/></g>
+<circle cx="{CX}" cy="{CY}" r="43" fill="{BG0}" stroke="{ACCENT}" stroke-width="2"/>
 <image href="{center_img}" x="{CX - 40}" y="{CY - 40}" width="80" height="80" clip-path="url(#me)"/>
-<rect x="{CX - 52}" y="{CY + 58}" width="104" height="18" rx="9" fill="{BG0}" stroke="{MINT}" stroke-opacity=".6"/>
-<text x="{CX}" y="{CY + 70.5}" text-anchor="middle" font-size="10" font-weight="700" fill="{MINT}">@{esc(OWNER)}</text>
+<rect x="{CX - 52}" y="{CY + 58}" width="104" height="18" rx="3" fill="{BG0}" stroke="{LINE}"/>
+<text x="{CX}" y="{CY + 70.5}" text-anchor="middle" font-size="10" font-weight="700" fill="{TEXT}">@{esc(OWNER)}</text>
 {"".join(slots)}
 {"".join(people)}
-<rect width="{W}" height="40" fill="#000" fill-opacity=".4"/>
+<rect width="{W}" height="40" fill="#000" fill-opacity=".45"/>
 <path d="M0 40.5H{W}" stroke="{LINE}"/>
-<circle cx="24" cy="20" r="5" fill="{RED}"/><circle cx="41" cy="20" r="5" fill="#ffbd2e"/><circle cx="58" cy="20" r="5" fill="#27c93f"/>
-<text x="78" y="24.5" font-size="11.5" fill="{MUTED}"><tspan fill="{PINK}">$</tspan> ./orbit --summon <tspan fill="{DIM}">--crew</tspan><tspan class="blink" fill="{PINK}"> _</tspan></text>
-<rect x="{num(W - 18 - cw)}" y="9" width="{num(cw)}" height="22" rx="11" fill="{PINK}" fill-opacity=".1" stroke="{PINK}" stroke-opacity=".55"/>
-<circle class="blink" cx="{num(W - 18 - cw + 13)}" cy="20" r="3.2" fill="{PINK}"/>
-<text x="{num(W - 18 - cw + 22)}" y="23.5" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="{PINK}">{count_text}</text>
+{window_dots()}
+<text x="78" y="24.5" font-size="11.5" fill="{MUTED}"><tspan fill="{ACCENT}">$</tspan> ./orbit --summon <tspan fill="{DIM}">--crew</tspan><tspan class="blink" fill="{ACCENT}"> _</tspan></text>
+<rect x="{num(W - 18 - cw)}" y="9" width="{num(cw)}" height="22" rx="3" fill="{BG0}" stroke="{LINE}"/>
+<circle class="blink" cx="{num(W - 18 - cw + 13)}" cy="20" r="3" fill="{ACCENT}"/>
+<text x="{num(W - 18 - cw + 22)}" y="23.5" font-size="9.5" font-weight="700" letter-spacing="1.2" fill="{SOFT}">{count_text}</text>
 <g class="cta"><text x="{W / 2}" y="{H - 14}" text-anchor="middle" font-size="10.5" fill="{MUTED}">{esc(hint)}</text></g>
-<text x="20" y="{H - 14}" font-size="9" fill="{DIM}"><tspan fill="{MINT}">●</tspan> guestbook {n_guests}  <tspan fill="{CYAN}">●</tspan> followers {len(visible) - n_guests}</text>
-<rect width="{W}" height="{H}" fill="url(#lines)"/>
+<text x="20" y="{H - 14}" font-size="9" fill="{DIM}"><tspan fill="{ACCENT}">●</tspan> guestbook {n_guests}  <tspan fill="{STEEL}">●</tspan> followers {len(visible) - n_guests}</text>
+{grain_layer(W, H)}
 </g>
 <rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="18" fill="none" stroke="{LINE}" stroke-width="1.5"/>
 </svg>'''
