@@ -321,13 +321,14 @@ def odometer(value: str, x: float, y: float, size: float, color: str, base_delay
         f'width="{num(sum(widths) + 4)}" height="{num(size * .8)}"/></clipPath>'
     )
     body = [f'<g clip-path="url(#{cid})">']
+    static = []  # separators sit outside the clip so a comma keeps its tail
     digits = [i for i, ch in enumerate(value) if ch.isdigit()]
     cursor = x
     for i, (ch, w) in enumerate(zip(value, widths)):
         mid = cursor + w / 2
         cursor += w
         if not ch.isdigit():
-            body.append(f'<text class="dp" x="{num(mid)}" y="{num(y)}" text-anchor="middle" font-size="{size}" fill="{color}">{esc(ch)}</text>')
+            static.append(f'<text class="dp" x="{num(mid)}" y="{num(y)}" text-anchor="middle" font-size="{size}" fill="{color}">{esc(ch)}</text>')
             continue
         order = digits.index(i)
         spans = "".join(
@@ -338,7 +339,7 @@ def odometer(value: str, x: float, y: float, size: float, color: str, base_delay
             f'<text class="dp" y="{num(y)}" text-anchor="middle" font-size="{size}" fill="{color}">{spans}</text></g>'
         )
     body.append("</g>")
-    return defs, "".join(body), cursor - x
+    return defs, "".join(body) + "".join(static), cursor - x
 
 
 def render(stats: Stats) -> str:

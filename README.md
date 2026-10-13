@@ -31,9 +31,9 @@ I turn <b>AI/ML ideas into shipped software</b> — model experiments, agent too
 <a href="https://zonr.pro"><img src="./assets/cards/card-zonr.svg" width="100%" alt="Zonr — turns a stalled, deadline-driven goal into today's next step. WorldSkills BeChangeMaker 2026 Global Top 15. Live on iOS and Android." /></a>
 
 <p align="center">
-  <a href="https://zonr.pro"><img src="./assets/cards/store-web.svg" height="48" alt="Visit zonr.pro" /></a>
-  <a href="https://apps.apple.com/app/id6759614919"><img src="./assets/cards/store-ios.svg" height="48" alt="Download Zonr on the App Store" /></a>
-  <a href="https://play.google.com/store/apps/details?id=com.zonr.app"><img src="./assets/cards/store-play.svg" height="48" alt="Get Zonr on Google Play" /></a>
+  <a href="https://zonr.pro"><img src="./assets/cards/store-web.svg" width="30%" alt="Visit zonr.pro" /></a>
+  <a href="https://apps.apple.com/app/id6759614919"><img src="./assets/cards/store-ios.svg" width="30%" alt="Download Zonr on the App Store" /></a>
+  <a href="https://play.google.com/store/apps/details?id=com.zonr.app"><img src="./assets/cards/store-play.svg" width="30%" alt="Get Zonr on Google Play" /></a>
 </p>
 
 <p align="center">

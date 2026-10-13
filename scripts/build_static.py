@@ -307,7 +307,8 @@ def buttons() -> dict[str, str]:
 # ----------------------------------------------------------------------- headers
 
 def header(index: str, title: str) -> str:
-    W, H = 980, 64
+    """Section slate: its own dark panel so it reads on light and dark GitHub themes."""
+    W, H = 980, 72
     style = base_style(
         "@keyframes sweep{from{transform:translateX(-160px)}to{transform:translateX(1000px)}}"
         ".sw{animation:sweep 6s cubic-bezier(.6,0,.4,1) infinite}"
@@ -315,13 +316,18 @@ def header(index: str, title: str) -> str:
     tw = measure(title, 34, "Anton", spacing=2)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="{esc(title)}">
 {style}
-<defs><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="{ACCENT}" stop-opacity="0"/><stop offset=".5" stop-color="{ACCENT}"/><stop offset="1" stop-color="{ACCENT}" stop-opacity="0"/></linearGradient></defs>
-<text x="4" y="42" font-size="13" font-weight="700" fill="{ACCENT}">{esc(index)}</text>
-<rect x="32" y="18" width="1" height="28" fill="{LINE}"/>
-<text x="46" y="44" class="dp" font-size="34" letter-spacing="2" fill="{TEXT}">{esc(title)}</text>
-<rect class="blink" x="{num(54 + tw)}" y="21" width="12" height="23" fill="{ACCENT}"/>
-<rect x="4" y="56" width="{W - 8}" height="1" fill="{LINE}"/>
-<rect class="sw" x="0" y="55" width="160" height="3" rx="1.5" fill="url(#s)"/>
+<defs><linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="{ACCENT}" stop-opacity="0"/><stop offset=".5" stop-color="{ACCENT}"/><stop offset="1" stop-color="{ACCENT}" stop-opacity="0"/></linearGradient>
+<clipPath id="c"><rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="12"/></clipPath>{grain()}</defs>
+<g clip-path="url(#c)">
+<rect width="{W}" height="{H}" fill="{BG0}"/>
+<text x="26" y="45" font-size="13" font-weight="700" fill="{ACCENT}">{esc(index)}</text>
+<rect x="56" y="22" width="1" height="28" fill="{LINE}"/>
+<text x="74" y="49" class="dp" font-size="34" letter-spacing="2" fill="{TEXT}">{esc(title)}</text>
+<rect class="blink" x="{num(82 + tw)}" y="26" width="12" height="23" fill="{ACCENT}"/>
+<rect class="sw" x="0" y="{H - 3}" width="160" height="3" fill="url(#s)"/>
+{grain_layer(W, H)}
+</g>
+<rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="12" fill="none" stroke="{LINE}"/>
 </svg>'''
 
 
@@ -711,7 +717,7 @@ def decrypt() -> str:
 # ------------------------------------------------------------------------ footer
 
 def footer() -> str:
-    W, H = 980, 110
+    W, H = 980, 130
     line = "build -> measure -> ship -> learn"
     lw = text_width(line, 15)
     style = base_style(
@@ -723,11 +729,18 @@ def footer() -> str:
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Fin — {esc(line)}">
 {style}
 <defs><linearGradient id="f" x1="0" x2="1"><stop offset="0" stop-color="{ACCENT}" stop-opacity="0"/><stop offset=".5" stop-color="{ACCENT}"/><stop offset="1" stop-color="{ACCENT}" stop-opacity="0"/></linearGradient>
-<clipPath id="ty"><rect x="{num(W / 2 - lw / 2)}" y="76" width="0" height="26"><animate attributeName="width" values="0;{num(lw)};{num(lw)};0" keyTimes="0;.35;.85;1" dur="7s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;0 0 1 1;.4 0 .6 1"/></rect></clipPath></defs>
-<rect x="4" y="4" width="{W - 8}" height="1" fill="{LINE}"/>
-<g class="flow"><rect x="0" y="3" width="{W}" height="3" fill="url(#f)"/></g>
-<text class="dp fin" x="{W / 2}" y="66" text-anchor="middle" font-size="40" letter-spacing="12" fill="{TEXT}">FIN.</text>
-<text x="{W / 2}" y="95" text-anchor="middle" font-size="15" font-weight="700" fill="{SOFT}" clip-path="url(#ty)">{esc(line)}</text>
+<radialGradient id="warm" cx="50%" cy="120%" r="70%"><stop offset="0" stop-color="#3a120d" stop-opacity=".7"/><stop offset="1" stop-color="{BG0}" stop-opacity="0"/></radialGradient>
+<clipPath id="c"><rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="14"/></clipPath>
+<clipPath id="ty"><rect x="{num(W / 2 - lw / 2)}" y="84" width="0" height="26"><animate attributeName="width" values="0;{num(lw)};{num(lw)};0" keyTimes="0;.35;.85;1" dur="7s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;0 0 1 1;.4 0 .6 1"/></rect></clipPath>{grain()}</defs>
+<g clip-path="url(#c)">
+<rect width="{W}" height="{H}" fill="{BG0}"/>
+<rect width="{W}" height="{H}" fill="url(#warm)"/>
+<g class="flow"><rect x="0" y="0" width="{W}" height="3" fill="url(#f)"/></g>
+<text class="dp fin" x="{W / 2}" y="74" text-anchor="middle" font-size="42" letter-spacing="12" fill="{TEXT}">FIN.</text>
+<text x="{W / 2}" y="103" text-anchor="middle" font-size="15" font-weight="700" fill="{SOFT}" clip-path="url(#ty)">{esc(line)}</text>
+{grain_layer(W, H)}
+</g>
+<rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="14" fill="none" stroke="{LINE}"/>
 </svg>'''
 
 
