@@ -317,8 +317,10 @@ def odometer(value: str, x: float, y: float, size: float, color: str, base_delay
     lh = size * 1.25
     widths = [size * (DIGIT_W if ch.isdigit() else COMMA_W) for ch in value]
     defs = (
-        f'<clipPath id="{cid}"><rect x="{num(x - 2)}" y="{num(y - size * .78)}" '
-        f'width="{num(sum(widths) + 4)}" height="{num(size * .8)}"/></clipPath>'
+        # Anton digits stand 0.87em tall; the window shows exactly one row of the
+        # 1.25em-spaced strip, with a little air above and below.
+        f'<clipPath id="{cid}"><rect x="{num(x - 2)}" y="{num(y - size * .93)}" '
+        f'width="{num(sum(widths) + 4)}" height="{num(size * .97)}"/></clipPath>'
     )
     body = [f'<g clip-path="url(#{cid})">']
     static = []  # separators sit outside the clip so a comma keeps its tail
