@@ -1,12 +1,13 @@
-name: Refresh profile activity
+name: Refresh profile cards
 
 on:
   push:
     branches: [main]
     paths:
-      - README.md
-      - assets/**
-      - scripts/generate_activity.py
+      - scripts/**
+      - assets/fonts/**
+      - assets/brand/**
+      - data/icons.json
       - .github/workflows/profile-metrics.yml
   schedule:
     - cron: "15 0 * * *" # 08:15 in Taiwan
@@ -16,8 +17,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: profile-metrics
-  cancel-in-progress: true
+  group: profile-writer
+  cancel-in-progress: false
 
 jobs:
   refresh:
@@ -26,21 +27,41 @@ jobs:
       - name: Checkout profile repository
         uses: actions/checkout@v4
 
-      - name: Generate activity card
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install font subsetter
+        run: python -m pip install --disable-pip-version-check "fonttools==4.60.1" "brotli==1.1.0"
+
+      - name: Build static cards
+        run: python scripts/build_static.py
+
+      - name: Render contribution skyline
         env:
           GITHUB_LOGIN: ${{ github.repository_owner }}
+          # Optional classic PAT with only the `read:user` scope: counts private contributions in full.
           PROFILE_METRICS_TOKEN: ${{ secrets.PROFILE_METRICS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROFILE_TZ_OFFSET: "8"
-        run: python3 scripts/generate_activity.py
+        run: python scripts/generate_activity.py
 
-      - name: Commit refreshed metrics
+      - name: Render orbit
+        env:
+          GITHUB_LOGIN: ${{ github.repository_owner }}
+          GITHUB_OWNER_ID: ${{ github.repository_owner_id }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/orbit.py render
+
+      - name: Commit refreshed cards
         run: |
-          git add metrics/activity.svg
+          git add assets/cards metrics
           if git diff --cached --quiet; then
-            echo "No metric changes."
+            echo "No card changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: refresh profile activity"
-          git push origin HEAD:main
+          git commit -m "chore: refresh profile cards"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

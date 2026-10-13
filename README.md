@@ -1,55 +1,67 @@
 <div align="center">
-  <img src="./assets/profile-hero.svg" width="100%" alt="Ay-Mr — AI product engineering" />
-  <br/><br/>
-  <a href="mailto:houbaian54@gmail.com"><img src="https://img.shields.io/badge/Email-111827?style=flat-square&logo=gmail&logoColor=white" alt="Email" /></a>
-  <a href="https://github.com/masddffee?tab=repositories"><img src="https://img.shields.io/badge/Repositories-111827?style=flat-square&logo=github&logoColor=white" alt="Repositories" /></a>
-  <img src="https://img.shields.io/badge/Taiwan-111827?style=flat-square&logo=googlemaps&logoColor=white" alt="Taiwan" />
-</div>
 
-## What I build
+<img src="./assets/cards/hero.svg" width="100%" alt="AY-MR — AI product engineer building Zonr, LensGuard and agent tooling from Taiwan" />
 
-I’m a student engineer focused on turning **AI/ML ideas into usable software systems** — from model experiments and local-first tooling to mobile/web products that can actually be tested, shipped, and improved.
-
-`AI product engineering` · `full-stack systems` · `developer tooling` · `local-first software` · `applied ML`
-
-- **AI products:** model-backed workflows, intelligent automation, evaluation, and human-in-the-loop product design.
-- **Software systems:** end-to-end mobile/web/backend implementation with a production mindset rather than demo-only prototypes.
-- **Applied ML & edge computing:** computer vision, embedded devices, and practical inference under real hardware constraints.
-
-## Selected work
-
-| Project | What it solves | Core stack |
-| --- | --- | --- |
-| **[DeskGraph](https://github.com/masddffee/DeskGraph)** | A privacy-first, local computer context graph that lets AI agents search narrowly authorized local context without uploading file data by default. | Rust · Tauri · SQLite · local-first architecture |
-| **[Google Play Preflight Skills](https://github.com/masddffee/google-play-preflight-skills)** | A policy-aware preflight skill for AI coding agents that catches likely Android / Expo / React Native / Flutter review blockers before Play Store submission. | Agent tooling · Android policy · Expo / React Native |
-| **[Smart Microwave Oven](https://github.com/masddffee/Smart-microwave-oven)** | Contactless microwave input using computer vision, Raspberry Pi hardware control, and on-device ML-oriented inference. | Python · TensorFlow / Keras · OpenCV · Raspberry Pi |
-
-## Core stack
+<a href="https://zonr.pro"><img src="./assets/cards/btn-zonr.svg" width="24%" alt="zonr.pro — official site and app" /></a>
+<a href="https://github.com/tyc4d/LensGuard"><img src="./assets/cards/btn-lensguard.svg" width="24%" alt="LensGuard — open-source vision AI guard" /></a>
+<a href="mailto:houbaian54@gmail.com"><img src="./assets/cards/btn-email.svg" width="24%" alt="Email houbaian54@gmail.com" /></a>
+<a href="https://github.com/masddffee/masddffee/issues/new?title=orbit%3A%20join&body=Hit%20%2A%2ASubmit%20new%20issue%2A%2A%20to%20drop%20your%20avatar%20into%20the%20orbit%20on%20my%20profile%20README.%0A%0AA%20GitHub%20Action%20adds%20your%20public%20username%20%2B%20avatar%2C%20re-renders%20the%20orbit%20and%20closes%20this%20issue%20automatically.%20Nothing%20else%20is%20collected."><img src="./assets/cards/btn-orbit.svg" width="24%" alt="Join the orbit — drop your avatar into this README" /></a>
 
 <p>
-  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" />
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React" />
-  <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white" alt="Node.js" />
-  <img src="https://img.shields.io/badge/Expo-000020?style=flat-square&logo=expo&logoColor=white" alt="Expo" />
-  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch" />
-  <img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=flat-square&logo=tensorflow&logoColor=white" alt="TensorFlow" />
-  <img src="https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust&logoColor=white" alt="Rust" />
-  <img src="https://img.shields.io/badge/C%2B%2B-00599C?style=flat-square&logo=cplusplus&logoColor=white" alt="C++" />
-  <img src="https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white" alt="SQLite" />
-  <img src="https://img.shields.io/badge/Supabase-181818?style=flat-square&logo=supabase&logoColor=3FCF8E" alt="Supabase" />
+I turn <b>AI/ML ideas into shipped software</b> — model experiments, agent tooling and mobile apps that people actually download.<br/>
+<sub>把 AI 點子做成真正上線、有人在用的產品 · Taiwan 🇹🇼</sub>
 </p>
 
-## Engineering activity
+</div>
+
+<details>
+<summary><kbd>&nbsp;▶ CLICK&nbsp;</kbd>&nbsp; <code>decrypt ./about.enc --key=curiosity</code> &nbsp;<sub>who is behind this terminal?</sub></summary>
+<br/>
+<img src="./assets/cards/decrypt.svg" width="100%" loading="lazy" alt="Decrypted profile" />
+
+- **Role** — AI product engineer · student builder · Taiwan
+- **Focus** — AI products · full-stack systems · applied ML · agent tooling
+- **Shipped** — [Zonr](https://zonr.pro) on iOS + Android · [Google Play Preflight Skills](https://github.com/masddffee/google-play-preflight-skills)
+- **Research** — [LensGuard](https://github.com/tyc4d/LensGuard): safe actions for vision-AI assistants (research & product lead)
+- **Method** — problem → prototype → evidence → ship
+
+</details>
+
+<br/>
+<img src="./assets/cards/h-work.svg" width="100%" alt="01 — Selected work" />
 
 <p align="center">
-  <img src="./metrics/activity.svg" width="100%" alt="GitHub engineering activity" />
+  <a href="https://zonr.pro"><img src="./assets/cards/card-zonr.svg" width="49%" alt="Zonr 佐能 — AI planner that turns a stalled, deadline-driven goal into today's next step. Live on iOS and Android." /></a>
+  <a href="https://github.com/tyc4d/LensGuard"><img src="./assets/cards/card-lensguard.svg" width="49%" alt="LensGuard — open-source action-authorization guard that stops prompt injections hidden in camera scenes." /></a>
+  <a href="https://github.com/masddffee/google-play-preflight-skills"><img src="./assets/cards/card-preflight.svg" width="49%" alt="Google Play Preflight Skills — catch Play Store review blockers before submission." /></a>
+  <a href="https://github.com/masddffee/Smart-microwave-oven"><img src="./assets/cards/card-microwave.svg" width="49%" alt="Smart Microwave Oven — contactless cooking with computer vision on a Raspberry Pi." /></a>
 </p>
 
 <p align="center">
-  <sub>Automatically refreshed from GitHub API data. When private-repository access is configured, this card aggregates public + private default-branch commits while never rendering private repository names or commit messages.</sub>
+  <a href="https://zonr.pro"><img src="./assets/cards/store-web.svg" height="46" alt="Visit zonr.pro" /></a>
+  <a href="https://apps.apple.com/app/id6759614919"><img src="./assets/cards/store-ios.svg" height="46" alt="Download Zonr on the App Store" /></a>
+  <a href="https://play.google.com/store/apps/details?id=com.zonr.app"><img src="./assets/cards/store-play.svg" height="46" alt="Get Zonr on Google Play" /></a>
 </p>
 
----
+<img src="./assets/cards/h-stack.svg" width="100%" alt="02 — Tech stack" />
+<img src="./assets/cards/stack.svg" width="100%" alt="Tech stack: Python, PyTorch, TensorFlow, OpenCV, NVIDIA VLMs, Claude Code, TypeScript, React, Next.js, Node.js, FastAPI, Tailwind, Supabase, Rust, Tauri, C++, SQLite, Docker, Cloudflare, Raspberry Pi, GitHub Actions" />
 
-<p align="center"><sub>Build → measure → ship → learn.</sub></p>
+<br/><br/>
+<img src="./assets/cards/h-activity.svg" width="100%" alt="03 — Engineering activity" />
+<img src="./metrics/activity.svg" width="100%" alt="Contribution skyline: last 12 months of GitHub contributions as a 3D city, with streaks and breakdown" />
+
+<p align="center"><sub>Rendered daily by GitHub Actions from the GraphQL <code>contributionsCollection</code> — the same data as the green squares, with private work counted anonymously. No repository names or commit messages are ever drawn.</sub></p>
+
+<img src="./assets/cards/h-orbit.svg" width="100%" alt="04 — The orbit" />
+
+<details>
+<summary><kbd>&nbsp;▶ CLICK TO SUMMON&nbsp;</kbd>&nbsp; <b>the orbit</b> &nbsp;<sub>every avatar here was dropped in by a visitor</sub></summary>
+<br/>
+<img src="./metrics/orbit.svg" width="100%" loading="lazy" alt="The orbit: avatars of visitors and followers circling this profile" />
+</details>
+
+<p align="center">
+  🛸 <a href="https://github.com/masddffee/masddffee/issues/new?title=orbit%3A%20join&body=Hit%20%2A%2ASubmit%20new%20issue%2A%2A%20to%20drop%20your%20avatar%20into%20the%20orbit%20on%20my%20profile%20README.%0A%0AA%20GitHub%20Action%20adds%20your%20public%20username%20%2B%20avatar%2C%20re-renders%20the%20orbit%20and%20closes%20this%20issue%20automatically.%20Nothing%20else%20is%20collected."><b>Join the orbit</b></a> — submit the pre-filled issue and a GitHub Action drops your avatar in within a minute.
+</p>
+
+<img src="./assets/cards/footer.svg" width="100%" alt="build → measure → ship → learn" />

@@ -1,0 +1,80 @@
+name: Orbit guestbook
+
+# A visitor opens the pre-filled "orbit: join" issue from the README; this adds
+# their public avatar to metrics/orbit.svg and closes the issue.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: profile-writer
+  cancel-in-progress: false
+
+jobs:
+  join:
+    if: startsWith(github.event.issue.title, 'orbit:') && github.event.issue.user.type == 'User'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout profile repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install font subsetter
+        run: python -m pip install --disable-pip-version-check "fonttools==4.60.1" "brotli==1.1.0"
+
+      - name: Add visitor and re-render the orbit
+        id: orbit
+        env:
+          # Identity comes from the issue author (set by GitHub), never from issue text.
+          ORBIT_LOGIN: ${{ github.event.issue.user.login }}
+          ORBIT_USER_ID: ${{ github.event.issue.user.id }}
+          GITHUB_LOGIN: ${{ github.repository_owner }}
+          GITHUB_OWNER_ID: ${{ github.repository_owner_id }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/orbit.py add
+          python scripts/orbit.py render
+
+      - name: Commit
+        env:
+          ORBIT_LOGIN: ${{ github.event.issue.user.login }}
+        run: |
+          git add data/orbit.json metrics/orbit.svg
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: welcome @${ORBIT_LOGIN} to the orbit"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((attempt * 5))
+          done
+          exit 1
+
+      - name: Reply and close
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.number }}
+          STATUS: ${{ steps.orbit.outputs.status }}
+          OUTCOME: ${{ job.status }}
+        run: |
+          case "${OUTCOME}:${STATUS}" in
+            success:added)    body="🛸 Welcome aboard! Your avatar is now orbiting the profile — open the README and click **▶ CLICK TO SUMMON** to watch it burst in. (GitHub may cache the image for a few minutes.)" ;;
+            success:existing) body="🛸 You're already in orbit — thanks for coming back!" ;;
+            *)                body="Something went wrong while adding you to the orbit. The owner has been notified via the failed workflow run." ;;
+          esac
+          gh issue comment "$ISSUE" --repo "$GITHUB_REPOSITORY" --body "$body"
+          if [ "$OUTCOME" = "success" ]; then
+            gh issue close "$ISSUE" --repo "$GITHUB_REPOSITORY" --reason completed
+          fi
